@@ -21,7 +21,7 @@ pub fn hide_cursor() { print(ESC + "[?25l") }
 pub fn reset_style() { print(ESC + "[0m") }
 
 pub fn move_to(x: int, y: int) {
-    print(ESC + "[" + str(y + 1) + ";" + str(x + 1) + "H")
+    print(ESC + "[" + "" + (y + 1) + ";" + "" + (x + 1) + "H")
 }
 
 pub fn write(text: string) { print(text) }

@@ -42,6 +42,56 @@ if (field[2] != "Name" || field[3] != true || widgets::value(field) != "" || tit
     print("OK widget state")
 }
 
+lt first_input = widgets::input("First")
+lt action = widgets::button("Save")
+lt second_input = widgets::input("Second")
+lt form = widgets::column([widgets::label("Form"), first_input, action, second_input])
+lt first_focus = widgets::focus_first(form)
+lt nested_mutation = [[false]]
+nested_mutation[0][0] = true
+if (!first_focus || !form[1][1][3] || form[1][2][2] || form[1][3][3]) {
+    print("FAIL initial focus")
+    failed = true
+} else {
+    print("OK initial focus")
+}
+if (!widgets::input_focused(form)) {
+    print("FAIL focused input query")
+    failed = true
+} else {
+    print("OK focused input query")
+}
+widgets::handle_key(form, 65)
+widgets::handle_key(form, 98)
+widgets::handle_key(form, 127)
+if (widgets::value(form[1][1]) != "A") {
+    print("FAIL input editing")
+    failed = true
+} else {
+    print("OK input editing")
+}
+widgets::handle_key(form, 9)
+if (!form[1][2][2] || form[1][1][3] || form[1][3][3]) {
+    print("FAIL next focus")
+    failed = true
+} else {
+    print("OK next focus")
+}
+widgets::handle_key(form, 9)
+if (!form[1][3][3] || form[1][2][2]) {
+    print("FAIL nested focus")
+    failed = true
+} else {
+    print("OK nested focus")
+}
+widgets::handle_key(form, 9)
+if (!form[1][1][3] || form[1][3][3]) {
+    print("FAIL focus wrap")
+    failed = true
+} else {
+    print("OK focus wrap")
+}
+
 lt key = events::decode_byte(65, 0)
 if (key[0] != "key" || key[1] != 65) {
     print("FAIL key event")

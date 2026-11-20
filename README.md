@@ -45,6 +45,10 @@ gd tests/foundation.gjs
 - `src/layout.gjs`: rectangles, horizontal/vertical splits and centering.
 - `src/widget.gjs`: labels, buttons, inputs and row/column containers.
 - `src/app.gjs`: render/poll/dispatch loop with terminal restoration on exit.
+- Tab moves focus across buttons and inputs; backspace and printable keys edit
+  the focused input.
+- The app redraws only after input or resize events, so idle polling does not
+  repeatedly clear the screen.
 
 The initial widget model is array-based and intentionally small while the
 public API settles. Input events currently expose terminal bytes, not decoded
