@@ -1,6 +1,7 @@
 import .layout as layout
 import .widget as widgets
 import .event as events
+import .screen as screen
 
 muts failed = false
 
@@ -60,6 +61,60 @@ if (!widgets::input_focused(form)) {
     failed = true
 } else {
     print("OK focused input query")
+}
+lt canvas = screen::create(8, 2)
+screen::put_text(canvas, 0, 0, "Hi", 8, 2, 4, 1)
+lt first_cell = screen::cell(canvas, 0, 0)
+lt second_cell = screen::cell(canvas, 1, 0)
+lt first_frame = screen::build_frame(canvas)
+lt second_frame = screen::build_frame(canvas)
+if (first_cell[0] != "H" || second_cell[0] != "i" ||
+    first_cell[1] != 2 || first_cell[2] != 4 ||
+    first_frame == "" || second_frame != "") {
+    print("FAIL cell buffer diff")
+    failed = true
+} else {
+    print("OK cell buffer diff")
+}
+screen::begin_frame(canvas)
+screen::put_text(canvas, 3, 0, "OK", 8, 2, 4, 1)
+lt changed_frame = screen::build_frame(canvas)
+lt cleared_cell = screen::cell(canvas, 0, 0)
+if (changed_frame == "" || cleared_cell[0] != " ") {
+    print("FAIL sparse frame clear")
+    failed = true
+} else {
+    print("OK sparse frame clear")
+}
+lt full_screen = screen::create(80, 24)
+screen::begin_frame(full_screen)
+lt empty_full_frame = screen::build_frame(full_screen)
+if (empty_full_frame != "") {
+    print("FAIL full-size sparse frame")
+    failed = true
+} else {
+    print("OK full-size sparse frame")
+}
+screen::put_text(canvas, 0, 1, "界é", 8, -1, -1, 0)
+lt wide_cell = screen::cell(canvas, 0, 1)
+lt continuation_cell = screen::cell(canvas, 1, 1)
+lt combined_cell = screen::cell(canvas, 2, 1)
+if (wide_cell[0] != "界" || wide_cell[4] != 2 ||
+    continuation_cell[4] != -1 || combined_cell[0] != "é") {
+    print("FAIL unicode cell widths")
+    failed = true
+} else {
+    print("OK unicode cell widths")
+}
+lt rendered = screen::create(12, 2)
+widgets::render(widgets::label("Visible"), rendered, 0, 0, 12, 2)
+lt rendered_cell = screen::cell(rendered, 0, 0)
+lt rendered_frame = screen::build_frame(rendered)
+if (rendered_cell[0] != "V" || rendered_frame == "") {
+    print("FAIL widget screen render")
+    failed = true
+} else {
+    print("OK widget screen render")
 }
 widgets::handle_key(form, 65)
 widgets::handle_key(form, 98)

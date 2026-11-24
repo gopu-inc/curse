@@ -1,0 +1,15 @@
+# Goscript package manifest
+[metadata]
+name = "curse"
+version = "0.1.4"
+release = "r0"
+arch = "x86_64"
+description = "Goscript package for render terminal user"
+author = "Admin"
+license = "MIT"
+main = "main.gjs"
+entry = "main.gjs"
+command = "curse"
+files = ["__self__.gjs", "main.gjs", "src/", "tests/", "examples/", "docs/", "README.md", "LICENSE"]
+
+[dependencies]

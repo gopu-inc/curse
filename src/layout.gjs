@@ -35,3 +35,21 @@ pub fn center(p_area: array, p_width: int, p_height: int): array {
     lt result_top = p_area[1] + (p_area[3] - result_height) / 2
     ret [result_left, result_top, result_width, result_height]
 }
+
+pub fn inset(p_area: array, p_top: int, p_right: int, p_bottom: int, p_left: int): array {
+    lt left = p_left
+    lt top = p_top
+    lt right = p_right
+    lt bottom = p_bottom
+    if (left < 0) { left = 0 }
+    if (top < 0) { top = 0 }
+    if (right < 0) { right = 0 }
+    if (bottom < 0) { bottom = 0 }
+    if (left > p_area[2]) { left = p_area[2] }
+    if (top > p_area[3]) { top = p_area[3] }
+    lt width = p_area[2] - left - right
+    lt height = p_area[3] - top - bottom
+    if (width < 0) { width = 0 }
+    if (height < 0) { height = 0 }
+    ret [p_area[0] + left, p_area[1] + top, width, height]
+}
